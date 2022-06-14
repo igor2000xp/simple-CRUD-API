@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/startServer.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,8 @@
   "bugs": {
     "url": "https://github.com/igor2000xp/nodejs-assignment-CRUD-API/issues"
   },
-  "homepage": "https://github.com/igor2000xp/nodejs-assignment-CRUD-API#readme"
-
+  "homepage": "https://github.com/igor2000xp/nodejs-assignment-CRUD-API#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
 }

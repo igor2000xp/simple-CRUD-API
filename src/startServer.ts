@@ -7,8 +7,16 @@ const PORT = process.env.PORT || 3000;
 const router = new Router();
 const emitter = new EventEmitter();
 
-router.get('/users', (req, res) => {
-  res.end('YOU SEND REQUEST TO /USER')
+router.get('/users', (request, response) => {
+  response.end('YOU SEND REQUEST TO /USER');
+})
+
+router.post('/users', (request, response) => {
+  response.end('YOU HAVE CREATED A USER');
+})
+
+router.get('/', (request, response) => {
+  response.end('YOU SEND REQUEST TO / = HELLO WORLD');
 })
 
 const server = http.createServer((request, response) => {

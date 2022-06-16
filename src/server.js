@@ -1,5 +1,5 @@
 import http from 'http';
-import { getUsers, getUser } from './controllers/userControllers.js';
+import { getUsers, getUser, createUser } from './controllers/userControllers.js';
 // import * as module from 'module';
 // import path from 'path';
 // import { fileURLToPath } from 'url';
@@ -22,6 +22,8 @@ export const server = http.createServer((req, res) => {
     getUsers(req, res);
   } else if (userId && req.method === 'GET') {
     getUser(req, res, userId);
+  } else if (req.url === '/api/users' && req.method === 'POST') {
+    createUser(req, res);
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: 'Route nod Found' }));

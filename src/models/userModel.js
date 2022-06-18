@@ -1,41 +1,57 @@
-import * as module from 'module';
-import { fileURLToPath } from 'url';
-import * as path from 'path';
 import {v4 as uuidV4} from 'uuid';
-import { writeDataToFile } from '../utils/utils.js';
+import * as Utils from '../utils/utils.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const JSON_USERS = path.resolve(__dirname, '../data/users.json');
-
-const getDataUsers = () => {
-  const require = module.createRequire(import.meta.url);
-  return require(JSON_USERS);
-}
-
-export const findAll = () => {
+export const findAll = async () => {
   return new Promise((resolve, reject) => {
-    // const require = module.createRequire(import.meta.url);
-    // const dataUsers = require(JSON_USERS);
-    const dataUsers = getDataUsers();
-    resolve(dataUsers);
+    const users = Utils.getDataUsers();
+    resolve(users);
   });
 };
 
-export const findById = (id) => {
+export const findAllToArray = async () => {
+  const users = await findAll();
+  const newUser = users.toString().trim();
+  return  JSON.parse(newUser);
+};
+
+export const findById = async (id) => {
+  const users = await findAll();
   return new Promise((resolve, reject) => {
-    const dataUser = getDataUsers().find((u) => u.id === id.toString());
-    resolve(dataUser);
+    let newUsers = users.toString().trim();
+    newUsers = JSON.parse(newUsers).find((el) => el.id === id.trim());
+
+    resolve(newUsers);
   });
 };
 
 export const create = async (user) => {
+  let users = await findAllToArray();
   return new Promise((resolve, reject) => {
-    const dataUsers = getDataUsers();
     const newUser = { id: uuidV4(), ...user };
-    dataUsers.push(newUser);
+    users.push(newUser);
+    Utils.writeDataToFile(users);
 
-    writeDataToFile(path.resolve(__dirname, '../data/users.json'), dataUsers);
-    resolve(dataUsers);
+    resolve(users);
   });
 };
+
+export const updateAllUsersFile = async (id, user) => {
+  let users = await findAllToArray();
+  return new Promise((resolve, reject) => {
+    let usersToWrite = users.filter((el) => el.id !== id.trim());
+    usersToWrite.push(user);
+    Utils.writeDataToFile(usersToWrite);
+
+    resolve(usersToWrite);
+  })
+}
+
+export const deleteUserFromFile = async (id) => {
+  const users = await findAllToArray();
+  return new Promise( async (resolve, reject) => {
+    const newUsers = users.filter((u) => u.id !== id);
+    await Utils.writeDataToFile(newUsers);
+
+    resolve(newUsers);
+  })
+}

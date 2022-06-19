@@ -1,5 +1,6 @@
 import http from 'http';
 import { getUsers, getUser, createUser, updateUser, deleteUser } from './controllers/userControllers.js';
+import { ROUTE_IS_WRONG } from './constants/errors-const.js';
 
 export const server = http.createServer((req, res) => {
   const userId = req.url.split('/')[3] ? req.url.split('/')[3] : '';
@@ -16,7 +17,8 @@ export const server = http.createServer((req, res) => {
     deleteUser(req, res, userId);
   } else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: 'Route nod Found' }));
+    res.end(JSON.stringify({ ERROR: ROUTE_IS_WRONG }));
+    console.log(ROUTE_IS_WRONG);
   }
 });
 

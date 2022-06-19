@@ -1,6 +1,7 @@
 import * as fs from 'fs/promises';
 import { fileURLToPath } from 'url';
 import * as path from 'path';
+import * as errors from '../constants/errors-const.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,5 +37,40 @@ export const getUserFromRequest = async (req) => {
       reject(err);
     }
   })
+};
 
-}
+export const isCheckedFields = (field1, field2, field3, namesArray) => {
+  const objKeys = Object.keys(namesArray);
+
+  const check = objKeys.map((el) => {
+    return el === field1 || el === field2 || el === field3 ? 1 : 0;
+  })
+
+  try {
+    const result = check.reduce((acc, curr) => acc + curr) === 3;
+
+    if (!result) {
+      throw("Value is wrong")
+    }
+    return result;
+  } catch (err) {
+    console.log(errors.REQUEST_BODY_IS_WRONG);
+  }
+
+};
+
+export const isValidV4UUID = (uuid) => {
+  const uuidV4Regex = /^[A-F\d]{8}-[A-F\d]{4}-4[A-F\d]{3}-[89AB][A-F\d]{3}-[A-F\d]{12}$/i;
+
+  try {
+  const result = uuidV4Regex.test(uuid);
+  if (!result) {
+    throw("Value is wrong")
+  }
+  return result;
+
+  } catch (err) {
+  console.log(errors.USER_ID_ERROR);
+  }
+};
+

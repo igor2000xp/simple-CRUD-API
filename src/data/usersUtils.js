@@ -4,6 +4,7 @@ import * as Utils from '../utils/utils.js';
 export const findAll = async () => {
   return new Promise((resolve, reject) => {
     const users = Utils.getDataUsers();
+
     resolve(users);
   });
 };
@@ -11,6 +12,7 @@ export const findAll = async () => {
 export const findAllToArray = async () => {
   const users = await findAll();
   const newUser = users.toString().trim();
+
   return  JSON.parse(newUser);
 };
 
@@ -31,7 +33,7 @@ export const create = async (user) => {
     users.push(newUser);
     Utils.writeDataToFile(users);
 
-    resolve(users);
+    resolve(newUser);
   });
 };
 
@@ -42,7 +44,7 @@ export const updateAllUsersFile = async (id, user) => {
     usersToWrite.push(user);
     Utils.writeDataToFile(usersToWrite);
 
-    resolve(usersToWrite);
+    resolve(user);
   })
 }
 

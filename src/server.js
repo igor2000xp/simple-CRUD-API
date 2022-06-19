@@ -1,6 +1,9 @@
 import http from 'http';
+import dotenv from 'dotenv';
 import { getUsers, getUser, createUser, updateUser, deleteUser } from './controllers/userControllers.js';
 import { ROUTE_IS_WRONG } from './constants/errors-const.js';
+
+dotenv.config();
 
 export const server = http.createServer((req, res) => {
   const userId = req.url.split('/')[3] ? req.url.split('/')[3] : '';
@@ -22,5 +25,5 @@ export const server = http.createServer((req, res) => {
   }
 });
 
-const PORT =  process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT =  process.env.PORT || 3000;
+server.listen(PORT, () => console.log(`Server running on port ${PORT} from .env`));
